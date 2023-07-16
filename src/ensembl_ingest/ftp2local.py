@@ -6,8 +6,8 @@ from src.ensembl_ingest.utils.exceptions import FTPError
 
 class EnsemblFTPSession:
     def __init__(self, organism, release):
-        self.organism_type = None
-        self.release = None
+        self.organism_type = organism
+        self.release = release
         self.ensembl_url = "ftp.ensemblgenomes.ebi.ac.uk"
 
         try:
@@ -30,6 +30,7 @@ class EnsemblFTPSession:
             )
 
         self.release = release
+        self.change_organism_type(organism=self.organism_type)
 
     def change_organism_type(self, organism):
         available_organisms = {

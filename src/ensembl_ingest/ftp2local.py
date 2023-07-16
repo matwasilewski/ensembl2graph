@@ -31,6 +31,9 @@ class EnsemblFTPSession:
             release=release, organism=organism
         )
 
+    def close(self):
+        self._ftp.close()
+
     def change_release(self, release: str) -> None:
         releases = {r.split("/")[-1] for r in self._ftp.nlst("/pub")}
 

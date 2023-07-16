@@ -23,11 +23,12 @@ def test_if_gff3_present(session: EnsemblFTPSession) -> None:
 def test_change_organism(session: EnsemblFTPSession) -> None:
     session.change_organism_type("fungi")
     fungi_pwd = session._ftp.pwd()
-    assert "/pub/release-55/fungi" == fungi_pwd
+    assert session.organism_type == "fungi"
+    assert fungi_pwd == "/pub/release-55/fungi"
 
 
 def test_raise_exception_when_changing_to_nonexistent_organism(
-        session: EnsemblFTPSession,
+    session: EnsemblFTPSession,
 ) -> None:
     with pytest.raises(FTPError) as e_info:
         session.change_organism_type("midichlorian")
@@ -36,8 +37,16 @@ def test_raise_exception_when_changing_to_nonexistent_organism(
     )
 
 
+def test_change_release(session: EnsemblFTPSession) -> None:
+    new_release = "release-47"
+    session.change_release(new_release)
+    new_pwd = session._ftp.pwd()
+    assert session.release == new_release
+    assert new_pwd == f"/pub/{new_release}/plants"
+
+
 def test_raise_exception_when_changing_to_nonexistent_release(
-        session: EnsemblFTPSession,
+    session: EnsemblFTPSession,
 ) -> None:
     nonexistent_release = "release-2137"
     with pytest.raises(FTPError) as e_info:
@@ -45,3 +54,15 @@ def test_raise_exception_when_changing_to_nonexistent_release(
     assert str(e_info.value).startswith(
         f"Release: {nonexistent_release} does not exist in {session.ensembl_url}. Available releases:"
     )
+
+
+def test_change_organism_and_release(session: EnsemblFTPSession) -> None:
+    new_release = "release-47"
+    new_organism = "fungi"
+    session.change_release_and_organism_type(
+        release=new_release, organism=new_organism
+    )
+    new_pwd = session._ftp.pwd()
+    assert session.release == new_release
+    assert session.organism_type == new_organism
+    assert new_pwd == f"/pub/{new_release}/{new_organism}"

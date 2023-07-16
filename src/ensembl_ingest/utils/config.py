@@ -6,7 +6,7 @@ from typing import Dict, Optional, Union
 
 import pkg_resources
 import tomlkit
-from pydantic import BaseSettings, validator
+from pydantic_settings import BaseSettings
 
 
 def _get_project_meta(name: str = 'unknown') -> Dict:

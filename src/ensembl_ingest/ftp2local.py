@@ -1,16 +1,19 @@
 from _socket import gaierror
 from ftplib import FTP
+from typing import Optional
 
 from src.ensembl_ingest.utils.exceptions import FTPError
 
 
 class EnsemblFTPSession:
-    def __init__(self, organism, release):
+    def __init__(
+        self, organism: str, release: str, output_dir: Optional[str] = None
+    ) -> None:
         self.organism_type = organism
         self.release = release
         self.format = "gff3"
         self.ensembl_url = "ftp.ensemblgenomes.ebi.ac.uk"
-        # TODO: add output_dir
+        self.output_dir = output_dir
 
         try:
             self._ftp = FTP(self.ensembl_url)
@@ -23,7 +26,7 @@ class EnsemblFTPSession:
             release=release, organism=organism
         )
 
-    def change_release(self, release):
+    def change_release(self, release: str) -> None:
         releases = {r.split("/")[-1] for r in self._ftp.nlst("/pub")}
 
         if release not in releases:
@@ -34,7 +37,7 @@ class EnsemblFTPSession:
         self.release = release
         self.change_organism_type(organism=self.organism_type)
 
-    def change_organism_type(self, organism):
+    def change_organism_type(self, organism: str) -> None:
         available_organisms = {
             org.split("/")[-1]
             for org in self._ftp.nlst(f"/pub/{self.release}")
@@ -46,9 +49,12 @@ class EnsemblFTPSession:
             )
 
         self.organism_type = organism
-        self._ftp.cwd(f"/pub/{self.release}/{self.organism_type}/{self.format}")
+        self._ftp.cwd(
+            f"/pub/{self.release}/{self.organism_type}/{self.format}"
+        )
 
-    def change_release_and_organism_type(self, release, organism):
+    def change_release_and_organism_type(
+        self, release: str, organism: str
+    ) -> None:
         self.change_release(release=release)
         self.change_organism_type(organism=organism)
-

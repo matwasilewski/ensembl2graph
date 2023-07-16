@@ -9,9 +9,11 @@ from src.ensembl_ingest.utils.exceptions import FTPError
 
 class EnsemblFTPSession:
     def __init__(
-            self, organism: str, release: str,
-            output_dir: str = os.path.join(os.getcwd(), "ftp_output"),
-            allow_overwrite: bool = False,
+        self,
+        organism: str,
+        release: str,
+        output_dir: str = os.path.join(os.getcwd(), "ftp_output"),
+        allow_overwrite: bool = False,
     ) -> None:
         self.organism_type = organism
         self.release = release
@@ -62,7 +64,7 @@ class EnsemblFTPSession:
         )
 
     def change_release_and_organism_type(
-            self, release: str, organism: str
+        self, release: str, organism: str
     ) -> None:
         self.change_release(release=release)
         self.change_organism_type(organism=organism)
@@ -72,7 +74,8 @@ class EnsemblFTPSession:
 
         if organism_name not in organisms_list:
             raise FTPError(
-                f"Organism: {organism_name} does not exist. Available organisms: {organisms_list}")
+                f"Organism: {organism_name} does not exist. Available organisms: {organisms_list}"
+            )
 
     def get(self, organism_name: str):
         self._confirm_organism_exists(organism_name)
@@ -96,6 +99,7 @@ class EnsemblFTPSession:
                 shutil.rmtree(organism_dir)
             else:
                 raise FileExistsError(
-                    f"The directory '{organism_dir}' already exists, is not empty and 'allow_overwrite' is set to False.")
+                    f"The directory '{organism_dir}' already exists, is not empty and 'allow_overwrite' is set to False."
+                )
         os.makedirs(organism_dir)
         return organism_dir

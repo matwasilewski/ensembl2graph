@@ -1,3 +1,4 @@
+import logging
 import os
 
 import click
@@ -19,7 +20,6 @@ from src.ensembl_ingest.ftp2local import EnsemblFTPSession
     '--release',
     default="current",
     type=str,
-    prompt='Release',
     help='The release version.',
 )
 @click.option(
@@ -32,6 +32,7 @@ def main(organism_name, organism_type, release, output_dir):
 
 
 def _download_files(organism_name, organism_type, release, output_dir):
+    logging.info(f"Starting session for organism_type: {organism_type}, release: {release} and output_dir: {output_dir}")
     session = EnsemblFTPSession(
         organism=organism_type, release=release, output_dir=output_dir
     )

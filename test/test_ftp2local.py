@@ -17,3 +17,9 @@ def test_ensembl_session() -> None:
 def test_if_gff3_present(session: EnsemblFTPSession) -> None:
     list_in_plants = session._ftp.nlst()
     assert "gff3" in list_in_plants
+
+
+def test_change_organism(session: EnsemblFTPSession) -> None:
+    session.change_organism("fungi")
+    fungi_pwd = session._ftp.pwd()
+    assert "/pub/release-55/fungi" == fungi_pwd

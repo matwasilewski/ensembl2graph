@@ -73,9 +73,18 @@ class EnsemblFTPSession:
 
     def get(self, organism_name: str):
         self._confirm_organism_exists(organism_name)
-        self._confirm_output_dir(organism_name)
+        organism_dir = self._make_organism_dir(organism_name)
+        current_ftp_pwd = self._ftp.pwd()
+        entities = self._ftp.nlst("/".join([current_ftp_pwd, organism_name]))
 
-    def _confirm_output_dir(self, organism_name):
+        for entity in entities:
+            entity_name = entity.split("/")[-1]
+            organism_filename = os.path.join(organism_dir, entity_name)
+
+            with open(organism_filename, "wb") as f:
+                self._ftp.retrbinary('RETR ' + entity, f.write)
+
+    def _make_organism_dir(self, organism_name):
         os.makedirs(self.output_dir, exist_ok=True)
         organism_dir = os.path.join(self.output_dir, organism_name)
 
@@ -86,3 +95,4 @@ class EnsemblFTPSession:
                 raise FileExistsError(
                     f"The directory '{organism_dir}' already exists, is not empty and 'allow_overwrite' is set to False.")
         os.makedirs(organism_dir)
+        return organism_dir

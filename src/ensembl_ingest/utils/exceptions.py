@@ -1,3 +1,7 @@
+class GFF3Exception(Exception):
+    pass
+
+
 class FTPError(Exception):
     pass
 

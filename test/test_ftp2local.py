@@ -27,10 +27,21 @@ def test_change_organism(session: EnsemblFTPSession) -> None:
 
 
 def test_raise_exception_when_changing_to_nonexistent_organism(
-    session: EnsemblFTPSession,
+        session: EnsemblFTPSession,
 ) -> None:
     with pytest.raises(FTPError) as e_info:
         session.change_organism_type("midichlorian")
     assert str(e_info.value).startswith(
         f"Organism: midichlorian does not exist in {session.ensembl_url}, in release: release-55. Available organisms in this release:"
+    )
+
+
+def test_raise_exception_when_changing_to_nonexistent_release(
+        session: EnsemblFTPSession,
+) -> None:
+    nonexistent_release = "release-2137"
+    with pytest.raises(FTPError) as e_info:
+        session.change_release(nonexistent_release)
+    assert str(e_info.value).startswith(
+        f"Release: {nonexistent_release} does not exist in {session.ensembl_url}. Available releases:"
     )

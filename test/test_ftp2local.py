@@ -1,6 +1,7 @@
 import pytest
 
 from src.ensembl_ingest.ftp2local import EnsemblFTPSession
+from src.ensembl_ingest.utils.exceptions import FTPError
 
 
 @pytest.fixture()
@@ -20,6 +21,16 @@ def test_if_gff3_present(session: EnsemblFTPSession) -> None:
 
 
 def test_change_organism(session: EnsemblFTPSession) -> None:
-    session.change_organism("fungi")
+    session.change_organism_type("fungi")
     fungi_pwd = session._ftp.pwd()
     assert "/pub/release-55/fungi" == fungi_pwd
+
+
+def test_raise_exception_when_changing_to_nonexistent_organism(
+    session: EnsemblFTPSession,
+) -> None:
+    with pytest.raises(FTPError) as e_info:
+        session.change_organism_type("midichlorian")
+    assert str(e_info.value).startswith(
+        f"Organism: midichlorian does not exist in {session.ensembl_url}, in release: release-55. Available organisms in this release:"
+    )

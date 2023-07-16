@@ -6,6 +6,11 @@ description = "Ensembl Ingest Service"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+ujson = "^5.8.0"
+json-log-formatter = "^0.5.2"
+tomlkit = "^0.11.8"
+pydantic = "^2.0.3"
+pydantic-settings = "^2.0.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "6.2.5"

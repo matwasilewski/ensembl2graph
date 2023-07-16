@@ -8,7 +8,9 @@ class EnsemblFTPSession:
     def __init__(self, organism, release):
         self.organism_type = organism
         self.release = release
+        self.format = "gff3"
         self.ensembl_url = "ftp.ensemblgenomes.ebi.ac.uk"
+        # TODO: add output_dir
 
         try:
             self._ftp = FTP(self.ensembl_url)
@@ -44,8 +46,9 @@ class EnsemblFTPSession:
             )
 
         self.organism_type = organism
-        self._ftp.cwd(f"/pub/{self.release}/{self.organism_type}")
+        self._ftp.cwd(f"/pub/{self.release}/{self.organism_type}/{self.format}")
 
     def change_release_and_organism_type(self, release, organism):
         self.change_release(release=release)
         self.change_organism_type(organism=organism)
+

@@ -1,4 +1,5 @@
 import pytest
+import tempfile
 
 from src.ensembl_ingest.ftp2local import EnsemblFTPSession
 from src.ensembl_ingest.utils.exceptions import FTPError
@@ -12,19 +13,19 @@ def session():
 def test_ensembl_session() -> None:
     # FIXME: This is acccesing the webserver directly. Should be replaced with https://pypi.org/project/pytest-localftpserver/
     session = EnsemblFTPSession(organism="plants", release="release-55")
-    assert session._ftp.pwd() == "/pub/release-55/plants"
+    assert session._ftp.pwd() == f"/pub/release-55/plants/{session.format}"
 
 
-def test_if_gff3_present(session: EnsemblFTPSession) -> None:
+def test_if_aegilops_tauschii_present(session: EnsemblFTPSession) -> None:
     list_in_plants = session._ftp.nlst()
-    assert "gff3" in list_in_plants
+    assert "aegilops_tauschii" in list_in_plants
 
 
 def test_change_organism(session: EnsemblFTPSession) -> None:
     session.change_organism_type("fungi")
     fungi_pwd = session._ftp.pwd()
     assert session.organism_type == "fungi"
-    assert fungi_pwd == "/pub/release-55/fungi"
+    assert fungi_pwd == f"/pub/release-55/fungi/{session.format}"
 
 
 def test_raise_exception_when_changing_to_nonexistent_organism(
@@ -42,7 +43,7 @@ def test_change_release(session: EnsemblFTPSession) -> None:
     session.change_release(new_release)
     new_pwd = session._ftp.pwd()
     assert session.release == new_release
-    assert new_pwd == f"/pub/{new_release}/plants"
+    assert new_pwd == f"/pub/{new_release}/plants/{session.format}"
 
 
 def test_raise_exception_when_changing_to_nonexistent_release(
@@ -65,4 +66,12 @@ def test_change_organism_and_release(session: EnsemblFTPSession) -> None:
     new_pwd = session._ftp.pwd()
     assert session.release == new_release
     assert session.organism_type == new_organism
-    assert new_pwd == f"/pub/{new_release}/{new_organism}"
+    assert new_pwd == f"/pub/{new_release}/{new_organism}/{session.format}"
+
+
+def test_output_dir() -> None:
+    with tempfile.TemporaryDirectory("output_dir") as tmp_dir_name:
+        session = EnsemblFTPSession(
+            organism="plants", release="release-55", output_dir=tmp_dir_name
+        )
+        assert session.output_dir == tmp_dir_name

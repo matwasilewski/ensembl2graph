@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["0.1.0 <mat.p.wasilewski@gmail.com>"]
 description = "Ensembl Ingest Service"
 
+[tool.poetry.scripts]
+get_genes = 'src.ensembl_ingest.cli:main'
+
 [tool.poetry.dependencies]
 python = "^3.9"
 ujson = "^5.8.0"

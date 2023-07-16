@@ -1,3 +1,7 @@
+class FTPError(Exception):
+    pass
+
+
 class BadLogFormatError(Exception):
     pass
 

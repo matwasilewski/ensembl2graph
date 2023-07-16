@@ -1,0 +1,110 @@
+[tool.poetry]
+name = "ensembl-ingest"
+version = "0.1.0"
+authors = ["0.1.0 <mat.p.wasilewski@gmail.com>"]
+description = "Ensembl Ingest Service"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "6.2.5"
+pytest-cov = "3.0.0"
+pytest-asyncio = "0.16.0"
+black = "22.3.0"
+mypy = "0.942"
+isort = "5.10.1"
+flake8-commas = "2.1.0"
+flake8-quotes = "3.3.1"
+autoflake = "1.4"
+flakeheaven = "^3.2.1"
+flake8-builtins = "^2.0.1"
+flake8-comprehensions = "^3.10.1"
+darglint = "^1.8.1"
+flake8-docstrings = "^1.6.0"
+flake8-eradicate = "^1.4.0"
+flake8-mutable = "^1.2.0"
+flake8-isort = "^5.0.0"
+flake8-pytest-style = "^1.6.0"
+pep8-naming = "^0.13.2"
+flake8-spellcheck = "^0.28.0"
+flake8-bugbear = "^22.10.27"
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+line_length = 79
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=src"
+log_cli_level = "DEBUG"
+markers = ['execution_timeout']
+
+[tool.flakeheaven]
+base = "https://raw.githubusercontent.com/flakeheaven/flakeheaven/main/pyproject.toml"
+exclude = [".git","__pycache__","__init__.py",".mypy_cache",".pytest_cache"]
+format = "grouped"
+max_line_length = 79
+show_source = true
+
+[tool.flakeheaven.plugins]
+pycodestyle = ["+*, -W503"]
+pyflakes = ["+*"]
+pylint = ["+*"]
+flake8-bugbear = ["+*", "-B008"]
+flake8-builtins = ["+*"]
+flake8-comprehensions = ["+*"]
+flake8-darglint = ["+*", "-DAR101", "-DAR201"]
+flake8-docstrings = ["-*"]
+flake8-eradicate = ["+*"]
+flake8-isort = ["-*"] 
+flake8-mutable = ["+*", "-M511"]
+flake8-pytest-style = ["+*", "-PT009"]
+flake8-spellcheck = ["-*"]
+mccabe = ["+*"]
+pep8-naming = ["+*"]
+flake8-quotes = ["-Q000"]
+flake8-commas = ["-C812"]
+
+[tool.flakeheaven.exceptions."**/__init__.py"]
+pyflakes = ["-*"]
+
+[tool.flakeheaven.exceptions."**/**/__init__.py"]
+pyflakes = ["-*"]
+
+[tool.black]
+line-length = 79
+target-version = ['py38']
+include = '.pyi?$'
+exclude = '''
+(
+/(
+.eggs         # exclude a few common directories in the
+| .git          # root of the project
+| .hg
+| .mypy_cache
+| .tox
+| .venv
+| _build
+| buck-out
+| build
+| dist
+)/
+| foo.py           # also separately exclude a file named foo.py in
+# the root of the project
+)
+'''
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+

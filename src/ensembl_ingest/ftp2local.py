@@ -9,7 +9,9 @@ from src.ensembl_ingest.utils.exceptions import FTPError
 
 class EnsemblFTPSession:
     def __init__(
-            self, organism: str, release: str, output_dir: str = os.path.join(os.getcwd(), "ftp_output"), allow_overwrite: bool = False,
+            self, organism: str, release: str,
+            output_dir: str = os.path.join(os.getcwd(), "ftp_output"),
+            allow_overwrite: bool = False,
     ) -> None:
         self.organism_type = organism
         self.release = release
@@ -66,18 +68,21 @@ class EnsemblFTPSession:
         organisms_list = {org.split("/")[-1] for org in self._ftp.nlst()}
 
         if organism_name not in organisms_list:
-            raise FTPError(f"Organism: {organism_name} does not exist. Available organisms: {organisms_list}")
+            raise FTPError(
+                f"Organism: {organism_name} does not exist. Available organisms: {organisms_list}")
 
     def get(self, organism_name: str):
         self._confirm_organism_exists(organism_name)
-        self._confirm_output_dir()
+        self._confirm_output_dir(organism_name)
 
-    def _confirm_output_dir(self):
-        if os.path.exists(self.output_dir):
+    def _confirm_output_dir(self, organism_name):
+        os.makedirs(self.output_dir, exist_ok=True)
+        organism_dir = os.path.join(self.output_dir, organism_name)
+
+        if os.path.exists(organism_dir) and len(os.listdir(organism_dir)) != 0:
             if self.allow_overwrite:
-                shutil.rmtree(self.output_dir)
+                shutil.rmtree(organism_dir)
             else:
                 raise FileExistsError(
-                    f"The directory '{self.output_dir}' already exists and 'allow_overwrite' is set to False.")
-        os.makedirs(self.output_dir)
-
+                    f"The directory '{organism_dir}' already exists, is not empty and 'allow_overwrite' is set to False.")
+        os.makedirs(organism_dir)

@@ -1,3 +1,5 @@
+import os.path
+
 import pytest
 import tempfile
 
@@ -29,7 +31,7 @@ def test_change_organism(session: EnsemblFTPSession) -> None:
 
 
 def test_raise_exception_when_changing_to_nonexistent_organism(
-    session: EnsemblFTPSession,
+        session: EnsemblFTPSession,
 ) -> None:
     with pytest.raises(FTPError) as e_info:
         session.change_organism_type("midichlorian")
@@ -47,7 +49,7 @@ def test_change_release(session: EnsemblFTPSession) -> None:
 
 
 def test_raise_exception_when_changing_to_nonexistent_release(
-    session: EnsemblFTPSession,
+        session: EnsemblFTPSession,
 ) -> None:
     nonexistent_release = "release-2137"
     with pytest.raises(FTPError) as e_info:
@@ -75,3 +77,17 @@ def test_output_dir() -> None:
             organism="plants", release="release-55", output_dir=tmp_dir_name
         )
         assert session.output_dir == tmp_dir_name
+
+
+def test_download_to_output_dir() -> None:
+    with tempfile.TemporaryDirectory("output_dir") as tmp_dir_name:
+        organism_name = "actinidia_chinensis"
+        session = EnsemblFTPSession(
+            organism="plants", release="release-55", output_dir=tmp_dir_name
+        )
+        expected_output_dir_path = os.path.join(tmp_dir_name, organism_name)
+        expected_genome = os.path.join(expected_output_dir_path, "Actinidia_chinensis.Red5_PS1_1.69.0.55.chr.gff3.gz")
+
+        session.get(organism_name)
+        assert os.path.isdir(expected_output_dir_path)
+        assert os.path.isfile(expected_genome)

@@ -58,3 +58,7 @@ class EnsemblFTPSession:
     ) -> None:
         self.change_release(release=release)
         self.change_organism_type(organism=organism)
+
+    # TODO: Add get to download files
+    def get(self, organism_name):
+        pass

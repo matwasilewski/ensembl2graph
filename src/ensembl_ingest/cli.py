@@ -8,7 +8,7 @@ from src.ensembl_ingest.ftp2local import EnsemblFTPSession
 from src.ensembl_ingest.gff3transform import GFF3Genome
 
 
-@click.command()
+@click.command(help="This command retrieves genes from Ensembl FTP server and saves them locally")
 @click.option(
     '--organism_name', required=True, type=str, help='The name of organism.'
 )
@@ -44,7 +44,7 @@ def _download_files(organism_name, organism_type, release, output_dir):
     session.close()
 
 
-@click.command()
+@click.command(help="This command parses GFF3 genes and generates .json node-link graph representations")
 @click.option(
     '--file_name', required=True, type=str, help='Path to the genome file'
 )

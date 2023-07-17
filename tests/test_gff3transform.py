@@ -23,3 +23,8 @@ def test_parse_subset(subset_genome_path: str) -> None:
     assert len(gff3._genome_gff3.lines) == 24
 
 
+def test_parse_to_node_link(subset_genome_path: str) -> None:
+    gff3 = GFF3Genome(subset_genome_path)
+    gff3.transform_to_node_link()
+    assert len(gff3.nodes) == 14
+    assert len(gff3.links) == 10

@@ -26,11 +26,6 @@ def gff3_subset(subset_genome_path: str) -> GFF3Genome:
     yield gff3
 
 
-@pytest.fixture()
-def node_link_path(test_resources_root: str) -> str:
-    return os.path.join(test_resources_root, "subset_node_link.json")
-
-
 @pytest.mark.skip(reason="Takes long to run")
 def test_unpacking_gz(gff3_full) -> None:
     assert len(gff3_full._genome_gff3.lines) == 4107556
@@ -63,6 +58,16 @@ def test_exception_raised_if_node_from_links_does_not_exist(
 
 
 def test_export_to_node_link_json(
+        gff3_subset: GFF3Genome,
+        node_link_path: str,
+) -> None:
+    with tempfile.TemporaryDirectory() as tempdir:
+        file_path = os.path.join(tempdir, "subset_node_link.json")
+        gff3_subset.to_node_link_json(file_path)
+        filecmp.cmp(file_path, node_link_path)
+
+
+def test_loading_to_networkx(
         gff3_subset: GFF3Genome,
         node_link_path: str,
 ) -> None:

@@ -11,3 +11,8 @@ def test_resources_root() -> str:
 @pytest.fixture()
 def subset_genome_path(test_resources_root):
     return os.path.join(test_resources_root, "Aegilops_tauschii_subset.gff")
+
+
+@pytest.fixture()
+def node_link_path(test_resources_root: str) -> str:
+    return os.path.join(test_resources_root, "subset_node_link.json")

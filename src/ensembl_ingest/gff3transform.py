@@ -6,6 +6,7 @@ import tempfile
 from gff3 import Gff3
 
 from src.ensembl_ingest.utils.exceptions import GFF3Exception
+from src.ensembl_ingest.utils.gene_utils import get_node_and_rel_from_record
 
 
 class GFF3Genome:
@@ -35,5 +36,9 @@ class GFF3Genome:
             self._genome_gff3.parse(temp_file_path)
 
     def transform_to_node_link(self):
-        # TODO: implement
-        pass
+        for record in self._genome_gff3.lines:
+            node, rels = get_node_and_rel_from_record(record)
+            if node is not None:
+                self.nodes.append(node)
+            for link in rels:
+                self.links.append(link)

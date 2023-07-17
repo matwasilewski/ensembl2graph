@@ -40,22 +40,21 @@ def test_parse_to_node_link(gff3_subset) -> None:
 
 
 def test_verify_if_all_nodes_from_links_exist(gff3_subset) -> None:
-    nodes = [
-        {"id": "child_id", "meta": "lorem"},
-        {"id": "parent_id", "meta": "ipsum"},
-    ]
+    nodes_ids = {"child_id", "parent_id"}
     links = [{"source": "child_id", "target": "parent_id"}]
-    gff3_subset.verify_nodes_exist(nodes, links)
+    gff3_subset.verify_nodes_exist(nodes_ids, links)
 
 
 def test_exception_raised_if_node_from_links_does_not_exist(
     gff3_subset: GFF3Genome,
 ) -> None:
-    nodes = [
-        {"id": "child_id", "meta": "lorem"},
-        {"id": "parent_id", "meta": "ipsum"},
-    ]
+    nodes_ids = {"child_id", "parent_id"}
     links = [{"source": "child_id", "target": "other_parent_id"}]
 
     with pytest.raises(RuntimeError):
-        gff3_subset.verify_nodes_exist(nodes, links)
+        gff3_subset.verify_nodes_exist(nodes_ids, links)
+
+def test_export_to_node_link_json(
+    gff3_subset: GFF3Genome,
+) -> None:
+    pass

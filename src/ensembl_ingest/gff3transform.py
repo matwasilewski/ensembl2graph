@@ -1,4 +1,5 @@
 import gzip
+import json
 import os.path
 import shutil
 import tempfile
@@ -59,3 +60,15 @@ class GFF3Genome:
                 raise RuntimeError(f"Node: {link['source']} is missing")
             elif link["target"] not in nodes_ids:
                 raise RuntimeError(f"Node: {link['target']} is missing")
+
+    def to_node_link_json(self, file_path: str) -> None:
+        if not self.transformed_to_node_link:
+            self.transform_to_node_link()
+
+        data = {
+            "nodes": self.nodes,
+            "links": self.links,
+        }
+
+        with open(file_path, "w") as f:
+            json.dump(data, f)

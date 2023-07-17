@@ -14,6 +14,7 @@ class GFF3Genome:
         self._genome_gff3 = Gff3()
         self.nodes = []
         self.links = []
+        self.transformed_to_node_link = False
 
         if not os.path.isfile(path):
             raise GFF3Exception(f"File: {path} does not exist!")
@@ -36,16 +37,23 @@ class GFF3Genome:
             self._genome_gff3.parse(temp_file_path)
 
     def transform_to_node_link(self):
+        self.transformed_to_node_link = True
+
         for record in self._genome_gff3.lines:
-            node, rels = get_node_and_rel_from_record(record)
+            node, _ = get_node_and_rel_from_record(record)
             if node is not None:
                 self.nodes.append(node)
+
+        node_ids = {node["id"] for node in self.nodes}
+
+        for record in self._genome_gff3.lines:
+            _, rels = get_node_and_rel_from_record(record)
+            self.verify_nodes_exist(node_ids, rels)
             for link in rels:
                 self.links.append(link)
 
     @staticmethod
-    def verify_nodes_exist(nodes, links):
-        nodes_ids = {node["id"] for node in nodes}
+    def verify_nodes_exist(nodes_ids, links):
         for link in links:
             if link["source"] not in nodes_ids:
                 raise RuntimeError(f"Node: {link['source']} is missing")

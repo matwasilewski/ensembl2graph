@@ -8,7 +8,7 @@ This is a simple ingest service for ensembl genes. It contains two CLIs:
 
 This package  depends on poetry: https://python-poetry.org/docs/#installation
 
-After installing poetry, run `poetry install` to create a virtual environemnt and create scripts.
+After installing poetry, run `poetry install` to create a virtual environment and create scripts.
 
 ## Usage
 ### Get Genes
@@ -73,3 +73,23 @@ with open("aegilops_tauschii_graph.json") as f:
 
 graph = nx.node_link_graph(data=aegilops_tauschii_json, directed=True)
 ```
+
+## Deployment
+
+This tools was created as a CLI utility for bioinformatics, but also with intention of being deployed as a ingest service.
+Towards this end, this tools was intentionally split into two separate tools, the ingestor and the parser. Below, I consider deployment options for this service:
+
+### Serverless container platform
+
+The package could easily be containerised, have a simple endpoint added and exposed, and be run on a serverless container platform such as CloudRun (GCP) or AWS App Runner.
+It would Extract resources from FTP server and transform them to .json graph files, subsequently uploading to GCS / S3 storage solution, effectively merging all three steps of ETL.
+It would be triggered by regular HTTPS requests.
+
+### Airflow
+
+If an Airflow deployment was accessible, a better way to deploy this Ensembl ingest service would be to deploy it on Airflow.
+1. A sensor running daily would pick up a change in FTP server if a new release would become available.
+2. Dedicated Airflow operator such as `FTPFileTransmitOperator` would download files from the service to intermediate storage.
+3. This service's parsing functionality (enclosed in `PythonOperator`, `PythonVirtualenvOperator` or ideally, `KubernetesPodOperator`) would process `gff3.gz` files one by one, producing .json for graphs.
+4. Cloud-dependent operator would move the processed data to storage, or would trigger another operator / DAG that would upload them to a graph database.
+

@@ -44,3 +44,27 @@ def test_extract_information_from_gene_from_gff(test_gff_object: Gff3) -> None:
     assert node.get("biotype", None) == "protein_coding"
     assert node.get("gene_id", None) == "AET2Gv20728000"
     assert node.get("logic_name", None) == "aet_v4_high_conf"
+
+    assert len(rels) == 0
+
+
+def test_extract_information_from_chromosome_from_gff(
+    test_gff_object: Gff3,
+) -> None:
+    chromosome_record = test_gff_object.lines[6]
+    node, rels = get_node_and_rel_from_record(chromosome_record)
+    assert node.get("id", None) == "chromosome:2D"
+    assert len(rels) == 0
+
+
+def test_extract_information_from_trna_from_gff(test_gff_object: Gff3) -> None:
+    chromosome_record = test_gff_object.lines[10]
+    node, rels = get_node_and_rel_from_record(chromosome_record)
+    assert node.get("id", None) == "transcript:ENSRNA050028792-T1"
+    assert node.get("biotype", None) == "tRNA"
+    assert node.get("tag", None) == "Ensembl_canonical"
+    assert node.get("transcript_id", None) == "ENSRNA050028792-T1"
+
+    assert len(rels) == 1
+    assert rels[0]["source"] == "transcript:ENSRNA050028792-T1"
+    assert rels[0]["target"] == "gene:AET2Gv20728000"

@@ -1,4 +1,6 @@
-from typing import Tuple, Dict, Any
+import copy
+import logging
+from typing import Tuple, Dict, Any, Union, Optional
 
 from gff3 import Gff3
 
@@ -31,6 +33,49 @@ def get_line_idx_2_entity_id_maps(gff: Gff3) -> Tuple[
     return line_idx_2_entity_id, entity_id_2_line_idx
 
 
-def get_node_from_gene(gene_record: Dict[str, Any]) -> Dict[str, str]:
-    # TODO: implement this method
-    return {}
+def extract_node_data(record: Dict[str, Any]) -> Tuple[
+    Dict[str, Optional[Any]], Any, Any]:
+    data = {
+        "directive": record.get("directive", None),
+        "type": record.get("type", None),
+        "seqid": record.get("seqid", None),
+        "start": record.get("start", None),
+        "end": record.get("end", None),
+        "score": record.get("score", None),
+        "source": record.get("source", None),
+        "strand": record.get("strand", None),
+        "phase": record.get("phase", None),
+    }
+    attributes, parents = extract_attributes_and_parents(record.get("attributes", {}))
+    return data, attributes, parents
+
+
+def extract_attributes_and_parents(attributes):
+    attributes_modified = copy.deepcopy(attributes)
+    parents = attributes_modified.get("Parent", [])
+
+    if "Parent" in attributes_modified:
+        del attributes_modified["Parent"]
+
+    if "ID" in attributes_modified:
+        attributes_modified["id"] = attributes_modified["ID"]
+        del attributes_modified["ID"]
+
+    return attributes_modified, parents
+
+
+def get_node_and_rel_from_record(gene_record: Dict[str, Any]):
+    data, attributes, parents_raw = extract_node_data(gene_record)
+    node = data
+    node.update(attributes)
+    node_id = node.get("id", None)
+
+    if node_id is None:
+        logging.warning(f"Node {node} missess ID...")
+        return node, []
+
+    parents = []
+    for parent in parents_raw:
+        parents.append({"source": node_id, "target": parent})
+
+    return node, parents

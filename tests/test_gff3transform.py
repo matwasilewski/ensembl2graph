@@ -12,19 +12,35 @@ def sample_gz_genome_path(test_resources_root):
     )
 
 
-@pytest.mark.skip(reason="Takes long to run")
-def test_unpacking_gz(sample_gz_genome_path: str) -> None:
+@pytest.fixture()
+def gff3_full(sample_gz_genome_path):
     gff3 = GFF3Genome(sample_gz_genome_path)
-    assert len(gff3._genome_gff3.lines) == 4107556
+    return gff3
 
 
-def test_parse_subset(subset_genome_path: str) -> None:
+@pytest.fixture()
+def gff3_subset(subset_genome_path: str) -> GFF3Genome:
     gff3 = GFF3Genome(subset_genome_path)
-    assert len(gff3._genome_gff3.lines) == 24
+    yield gff3
 
 
-def test_parse_to_node_link(subset_genome_path: str) -> None:
-    gff3 = GFF3Genome(subset_genome_path)
-    gff3.transform_to_node_link()
-    assert len(gff3.nodes) == 14
-    assert len(gff3.links) == 10
+@pytest.mark.skip(reason="Takes long to run")
+def test_unpacking_gz(gff3_full) -> None:
+    assert len(gff3_full._genome_gff3.lines) == 4107556
+
+
+def test_parse_subset(gff3_subset) -> None:
+    assert len(gff3_subset._genome_gff3.lines) == 24
+
+
+def test_parse_to_node_link(gff3_subset) -> None:
+    gff3_subset.transform_to_node_link()
+    assert len(gff3_subset.nodes) == 14
+    assert len(gff3_subset.links) == 10
+
+
+def test_verify_if_all_nodes_from_links_exist(gff3_subset) -> None:
+    nodes = [{"id": "child_id", "meta": "lorem"},
+             {"id": "parent_id", "meta": "ipsum"}]
+    links = [{"source": "child_id", "target": "parent_id"}]
+    gff3_subset.verify_nodes_exist(nodes, links)

@@ -42,3 +42,7 @@ class GFF3Genome:
                 self.nodes.append(node)
             for link in rels:
                 self.links.append(link)
+
+    def verify_nodes_exist(self, nodes, links):
+        # TODO: implement
+        pass

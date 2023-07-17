@@ -1,9 +1,10 @@
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Any
 
 from gff3 import Gff3
 
 
-def get_line_idx_2_entity_id_maps(gff: Gff3) -> Tuple[Dict[str, str], Dict[str, str]]:
+def get_line_idx_2_entity_id_maps(gff: Gff3) -> Tuple[
+    Dict[str, str], Dict[str, str]]:
     line_idx_2_entity_id = {}
     entity_id_2_line_idx = {}
 
@@ -28,3 +29,8 @@ def get_line_idx_2_entity_id_maps(gff: Gff3) -> Tuple[Dict[str, str], Dict[str, 
             entity_id_2_line_idx[entity_id] = line_idx
 
     return line_idx_2_entity_id, entity_id_2_line_idx
+
+
+def get_node_from_gene(gene_record: Dict[str, Any]) -> Dict[str, str]:
+    # TODO: implement this method
+    return {}

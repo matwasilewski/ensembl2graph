@@ -10,11 +10,6 @@ from src.ensembl_ingest.utils.gene_utils import (
 
 
 @pytest.fixture()
-def subset_genome_path(test_resources_root):
-    return os.path.join(test_resources_root, "Aegilops_tauschii_subset.gff")
-
-
-@pytest.fixture()
 def test_gff_object(subset_genome_path: str) -> Gff3:
     yield Gff3(subset_genome_path)
 

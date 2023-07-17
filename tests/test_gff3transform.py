@@ -17,3 +17,9 @@ def test_unpacking_gz(sample_gz_genome_path: str) -> None:
     gff3 = GFF3Genome(sample_gz_genome_path)
     assert len(gff3._genome_gff3.lines) == 4107556
 
+
+def test_parse_subset(subset_genome_path: str) -> None:
+    gff3 = GFF3Genome(subset_genome_path)
+    assert len(gff3._genome_gff3.lines) == 24
+
+

@@ -48,7 +48,7 @@ def test_verify_if_all_nodes_from_links_exist(gff3_subset) -> None:
 
 
 def test_exception_raised_if_node_from_links_does_not_exist(
-        gff3_subset: GFF3Genome,
+    gff3_subset: GFF3Genome,
 ) -> None:
     nodes_ids = {"child_id", "parent_id"}
     links = [{"source": "child_id", "target": "other_parent_id"}]
@@ -58,8 +58,8 @@ def test_exception_raised_if_node_from_links_does_not_exist(
 
 
 def test_export_to_node_link_json(
-        gff3_subset: GFF3Genome,
-        node_link_path: str,
+    gff3_subset: GFF3Genome,
+    node_link_path: str,
 ) -> None:
     with tempfile.TemporaryDirectory() as tempdir:
         file_path = os.path.join(tempdir, "subset_node_link.json")
@@ -68,8 +68,8 @@ def test_export_to_node_link_json(
 
 
 def test_loading_to_networkx(
-        gff3_subset: GFF3Genome,
-        node_link_path: str,
+    gff3_subset: GFF3Genome,
+    node_link_path: str,
 ) -> None:
     with tempfile.TemporaryDirectory() as tempdir:
         file_path = os.path.join(tempdir, "subset_node_link.json")

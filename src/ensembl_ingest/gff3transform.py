@@ -10,7 +10,9 @@ from src.ensembl_ingest.utils.exceptions import GFF3Exception
 
 class GFF3Genome:
     def __init__(self, path: str) -> None:
-        self.genome = Gff3()
+        self._genome_gff3 = Gff3()
+        self.nodes = []
+        self.links = []
 
         if not os.path.isfile(path):
             raise GFF3Exception(f"File: {path} does not exist!")
@@ -18,7 +20,7 @@ class GFF3Genome:
         if path.endswith(".gz"):
             self.unpack_genome_in_gz(path)
         else:
-            self.genome.parse(path)
+            self._genome_gff3.parse(path)
 
     def unpack_genome_in_gz(self, path: str) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -30,4 +32,8 @@ class GFF3Genome:
                 with open(temp_file_path, 'wb') as f_out:
                     shutil.copyfileobj(f_in, f_out)
 
-            self.genome.parse(temp_file_path)
+            self._genome_gff3.parse(temp_file_path)
+
+    def transform_to_node_link(self):
+        # TODO: implement
+        pass

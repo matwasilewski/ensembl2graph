@@ -43,6 +43,11 @@ class GFF3Genome:
             for link in rels:
                 self.links.append(link)
 
-    def verify_nodes_exist(self, nodes, links):
-        # TODO: implement
-        pass
+    @staticmethod
+    def verify_nodes_exist(nodes, links):
+        nodes_ids = {node["id"] for node in nodes}
+        for link in links:
+            if link["source"] not in nodes_ids:
+                raise RuntimeError(f"Node: {link['source']} is missing")
+            elif link["target"] not in nodes_ids:
+                raise RuntimeError(f"Node: {link['target']} is missing")

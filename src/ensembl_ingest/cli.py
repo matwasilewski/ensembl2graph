@@ -28,10 +28,6 @@ from src.ensembl_ingest.ftp2local import EnsemblFTPSession
     help='The output directory.',
 )
 def main(organism_name, organism_type, release, output_dir):
-    _download_files(organism_name, organism_type, release, output_dir)
-
-
-def _download_files(organism_name, organism_type, release, output_dir):
     logging.info(
         f"Starting session for organism_type: {organism_type}, release: {release} and output_dir: {output_dir}"
     )

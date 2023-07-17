@@ -8,17 +8,17 @@
 2D	PGSB	gene	409518958	409525564	.	-	.	ID=gene:AET2Gv20728000;biotype=protein_coding;gene_id=AET2Gv20728000;logic_name=aet_v4_high_conf
 2D	Ensembl_Plants	ncRNA_gene	25917965	25918036	.	+	.	ID=gene:ENSRNA050028792;Name=tRNA-Thr;biotype=tRNA;description=tRNA-Thr for anticodon CGU;gene_id=ENSRNA050028792;logic_name=trnascan_gene
 2D	PGSB	mRNA	409519593	409525304	.	-	.	ID=transcript:AET2Gv20728000.12;Parent=gene:AET2Gv20728000;biotype=protein_coding;transcript_id=AET2Gv20728000.12
-2D	Ensembl_Plants	tRNA	25917965	25918036	.	+	.	ID=transcript:ENSRNA050028792-T1;Parent=gene:ENSRNA050028792;biotype=tRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050028792-T1
-2D	Ensembl_Plants	snoRNA	70400934	70401007	.	-	.	ID=transcript:ENSRNA050031375-T1;Parent=gene:ENSRNA050031375;biotype=snoRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031375-T1
-2D	Ensembl_Plants	snRNA	126982204	126982306	.	-	.	ID=transcript:ENSRNA050031380-T1;Parent=gene:ENSRNA050031380;biotype=snRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031380-T1
-2D	Ensembl_Plants	pre_miRNA	63011909	63012040	.	+	.	ID=transcript:ENSRNA050031383-T1;Parent=gene:ENSRNA050031383;biotype=pre_miRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031383-T1
-2D	Ensembl_Plants	rRNA	468090066	468090494	.	-	.	ID=transcript:ENSRNA050031387-T1;Parent=gene:ENSRNA050031387;biotype=rRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031387-T1
-2D	Ensembl_Plants	lnc_RNA	142433294	142433561	.	+	.	ID=transcript:ENSRNA050031407-T1;Parent=gene:ENSRNA050031407;biotype=sense_intronic;tag=Ensembl_canonical;transcript_id=ENSRNA050031407-T1
+2D	Ensembl_Plants	tRNA	25917965	25918036	.	+	.	ID=transcript:ENSRNA050028792-T1;Parent=gene:AET2Gv20728000;biotype=tRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050028792-T1
+2D	Ensembl_Plants	snoRNA	70400934	70401007	.	-	.	ID=transcript:ENSRNA050031375-T1;Parent=gene:AET2Gv20728000;biotype=snoRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031375-T1
+2D	Ensembl_Plants	snRNA	126982204	126982306	.	-	.	ID=transcript:ENSRNA050031380-T1;Parent=gene:AET2Gv20728000;biotype=snRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031380-T1
+2D	Ensembl_Plants	pre_miRNA	63011909	63012040	.	+	.	ID=transcript:ENSRNA050031383-T1;Parent=gene:AET2Gv20728000;biotype=pre_miRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031383-T1
+2D	Ensembl_Plants	rRNA	468090066	468090494	.	-	.	ID=transcript:ENSRNA050031387-T1;Parent=gene:AET2Gv20728000;biotype=rRNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031387-T1
+2D	Ensembl_Plants	lnc_RNA	142433294	142433561	.	+	.	ID=transcript:ENSRNA050031407-T1;Parent=gene:AET2Gv20728000;biotype=sense_intronic;tag=Ensembl_canonical;transcript_id=ENSRNA050031407-T1
 2D	PGSB	exon	409525163	409525304	.	-	.	Name=AET2Gv20728000.12-E1;Parent=transcript:AET2Gv20728000.12;constitutive=0;ensembl_end_phase=1;ensembl_phase=0;exon_id=AET2Gv20728000.12-E1;rank=1
 2D	PGSB	CDS	409525163	409525304	.	-	0	ID=CDS:AET2Gv20728000.12;Parent=transcript:AET2Gv20728000.12;protein_id=AET2Gv20728000.12
-2D	PGSB	three_prime_UTR	409519415	409519545	.	-	.	Parent=transcript:AET2Gv20728000.9
-2D	PGSB	five_prime_UTR	409525257	409525529	.	-	.	Parent=transcript:AET2Gv20728000.6
-7D	Ensembl_Plants	SRP_RNA	7000726	7001029	.	-	.	ID=transcript:ENSRNA050031966-T1;Parent=gene:ENSRNA050031966;biotype=SRP_RNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031966-T1
-3D	Ensembl_Plants	RNase_MRP_RNA	616710023	616710262	.	+	.	ID=transcript:ENSRNA050033050-T1;Parent=gene:ENSRNA050033050;biotype=RNase_MRP_RNA;tag=Ensembl_canonical;transcript_id=ENSRNA050033050-T1
+2D	PGSB	three_prime_UTR	409519415	409519545	.	-	.	Parent=transcript:AET2Gv20728000.12
+2D	PGSB	five_prime_UTR	409525257	409525529	.	-	.	Parent=transcript:AET2Gv20728000.12
+7D	Ensembl_Plants	SRP_RNA	7000726	7001029	.	-	.	ID=transcript:ENSRNA050031966-T1;Parent=gene:AET2Gv20728000;biotype=SRP_RNA;tag=Ensembl_canonical;transcript_id=ENSRNA050031966-T1
+3D	Ensembl_Plants	RNase_MRP_RNA	616710023	616710262	.	+	.	ID=transcript:ENSRNA050033050-T1;Parent=gene:AET2Gv20728000;biotype=RNase_MRP_RNA;tag=Ensembl_canonical;transcript_id=ENSRNA050033050-T1
 Super_scaffold_131	Aet_v4.0	supercontig	1	2567495	.	.	.	ID=supercontig:Super_scaffold_131;Alias=NWVB01000009.1
 Super_scaffold_131	ena_assembly_gap	biological_region	29026	30092	.	+	.	external_name=NWVB01000009.1:assembly_gap:29026..30092;logic_name=ena_assembly_gap

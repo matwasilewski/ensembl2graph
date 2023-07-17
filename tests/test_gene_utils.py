@@ -4,7 +4,7 @@ import pytest
 from gff3 import Gff3
 
 from src.ensembl_ingest.utils.gene_utils import get_line_idx_2_entity_id_maps, \
-    get_node_from_gene
+    get_node_and_rel_from_record
 
 
 @pytest.fixture()
@@ -26,8 +26,8 @@ def test_extract_ids_from_gff(test_gff_object: Gff3) -> None:
 
 
 def test_extract_information_from_gene_from_gff(test_gff_object: Gff3) -> None:
-    gene_record = test_gff_object[7]
-    node = get_node_from_gene(gene_record)
+    gene_record = test_gff_object.lines[7]
+    node, rels = get_node_and_rel_from_record(gene_record)
     assert node.get("type", None) == "gene"
     assert node.get("seqid", None) == "2D"
     assert node.get("source", None) == "PGSB"
@@ -35,9 +35,10 @@ def test_extract_information_from_gene_from_gff(test_gff_object: Gff3) -> None:
     assert node.get("end", None) == 409525564
     assert node.get("score", None) == "."
     assert node.get("strand", None) == "-"
+    assert node.get("directive", None) == ""
     assert node.get("score", None) == "."
     assert node.get("phase", None) == "."
-    assert node.get("ID", None) == "gene:AET2Gv20728000"
+    assert node.get("id", None) == "gene:AET2Gv20728000"
     assert node.get("biotype", None) == "protein_coding"
     assert node.get("gene_id", None) == "AET2Gv20728000"
     assert node.get("logic_name", None) == "aet_v4_high_conf"

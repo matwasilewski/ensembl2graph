@@ -5,7 +5,8 @@ authors = ["0.1.0 <mat.p.wasilewski@gmail.com>"]
 description = "Ensembl Ingest Service"
 
 [tool.poetry.scripts]
-get_genes = 'src.ensembl_ingest.cli:main'
+get_genes = 'src.ensembl_ingest.cli:cli_download'
+gff3_to_graph = 'src.ensembl_ingest.cli:cli_to_graph'
 
 [tool.poetry.dependencies]
 python = "^3.9"

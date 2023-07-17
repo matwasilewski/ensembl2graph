@@ -78,7 +78,7 @@ def get_node_and_rel_from_record(gene_record: Dict[str, Any]):
     node_id = node.get("id", None)
 
     if node_id is None:
-        logging.warning(f"Node {node} missess ID...")
+        logging.warning(f"Node {node} misses ID...")
         return None, []
 
     parents = []

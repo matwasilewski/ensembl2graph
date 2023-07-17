@@ -29,7 +29,7 @@ from src.ensembl_ingest.gff3transform import GFF3Genome
     default=os.path.join(os.getcwd(), "ftp_output"),
     help='The output directory.',
 )
-def main(organism_name, organism_type, release, output_dir):
+def cli_download(organism_name, organism_type, release, output_dir):
     _download_files(organism_name, organism_type, release, output_dir)
 
 
@@ -46,10 +46,10 @@ def _download_files(organism_name, organism_type, release, output_dir):
 
 @click.command()
 @click.option(
-    '--file', required=True, type=str, help='Path to the genome file'
+    '--file_name', required=True, type=str, help='Path to the genome file'
 )
 @click.option(
-    '--output_file',
+    '--output_file_name',
     required=True,
     help='The output JSON filename.',
 )
@@ -69,7 +69,3 @@ def cli_to_graph(file_name, output_file_name):
 def _gff3_to_graph_json(file_name, output_file_name):
     genome = GFF3Genome(file_name)
     genome.to_node_link_json(output_file_name)
-
-
-if __name__ == '__main__':
-    main()

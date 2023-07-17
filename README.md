@@ -59,7 +59,7 @@ poetry run get_genes --organism_name aegilops_tauschii --output_dir local_genes_
 Parse genome into a graph representation in json
 
 ```bash
-poetry run gff3_to_graph --file_name local_genes_dir/Aegilops_tauschii.Aet_v4.0.56.gff3.gz --output_file_name aegilops_tauschii_graph.json
+poetry run gff3_to_graph --file_name local_genes_dir/aegilops_tauschii/Aegilops_tauschii.Aet_v4.0.57.gff3.gz --output_file_name aegilops_tauschii_graph.json
 ```
 
 ### How to use in networkX?
